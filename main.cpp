@@ -1,4 +1,7 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main() { return 0; }
+int main() {
+  cout << "hello, world" << endl;
+  return 0;
+}
