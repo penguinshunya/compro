@@ -11,9 +11,11 @@
 using namespace std;
 
 using i64 = long long;
+using u64 = unsigned long long;
 using f80 = long double;
 using vi32 = vector<int>;
 using vi64 = vector<i64>;
+using vu64 = vector<u64>;
 using vf80 = vector<f80>;
 using vstr = vector<string>;
 
@@ -40,26 +42,24 @@ inline i64 lcm(i64 a, i64 b) {
 
 template <typename T, typename S>
 inline bool amax(T& a, const S& b) {
-  return ((a > b) ? (a = b, true) : (false));
+  return ((a > b) ? (a = b, 1) : 0);
 }
 
 template <typename T, typename S>
 inline bool amin(T& a, const S& b) {
-  return ((a < b) ? (a = b, true) : (false));
+  return ((a < b) ? (a = b, 1) : 0);
 }
 
 template <typename T>
 istream& operator>>(istream& is, vector<T>& v) {
-  for (auto& x : v)
-    is >> x;
+  for (auto& x : v) is >> x;
   return is;
 }
 
 template <typename T>
 ostream& operator<<(ostream& os, vector<T>& v) {
   rep(i, v.size()) {
-    if (i)
-      os << ' ';
+    if (i) os << ' ';
     os << v[i];
   }
   return os;
@@ -75,6 +75,12 @@ template <typename T, typename S>
 ostream& operator<<(ostream& os, pair<T, S>& p) {
   os << p.first << ' ' << p.second;
   return os;
+}
+
+inline u64 xorshift() {
+  static u64 x = 88172645463325252ull;
+  x = x ^ (x << 7);
+  return x = x ^ (x >> 9);
 }
 
 void solve();
