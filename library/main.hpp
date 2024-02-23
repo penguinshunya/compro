@@ -117,7 +117,7 @@ struct Vec2 {
     return abs(this->x - that.x) + abs(this->y - that.y);
   }
 
-  Vec2 rot90() { return Vec2(-this->y, this->x); }
+  Vec2 rotate90() { return Vec2(-this->y, this->x); }
 
   friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y; }
 
