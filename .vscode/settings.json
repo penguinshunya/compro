@@ -4,15 +4,20 @@
     "*.tsx": "typescriptreact",
     "*.css": "tailwindcss",
     "random": "cpp",
-    "all": "cpp"
+    "all": "cpp",
+    "ostream": "cpp",
+    "tuple": "cpp",
+    "*.tcc": "cpp",
+    "ranges": "cpp",
+    "cmath": "cpp",
+    "span": "cpp"
   },
   "files.exclude": {
-    ".devcontainer": true,
     ".github": true,
     ".gitmodules": true,
     ".vscode": true,
     "ac-library": true,
     "README.md": true
   },
-  "C_Cpp.formatting": "vcFormat"
+  "C_Cpp.formatting": "default"
 }

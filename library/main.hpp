@@ -21,8 +21,8 @@ using vstr = vector<string>;
 
 const int INF = 1001001001;
 const i64 LINF = 1001001001001001001ll;
-const int dx[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
-const int dy[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+const int dx[] = {1, 0, -1, 0, 1, -1, -1, 1};
+const int dy[] = {0, 1, 0, -1, 1, 1, -1, -1};
 
 inline i64 gcd(i64 a, i64 b) {
   if (b == 0) return a;
@@ -36,28 +36,26 @@ inline pair<i64, i64> extgcd(i64 a, i64 b) {
   return make_pair(x, y);
 }
 
-inline i64 lcm(i64 a, i64 b) {
-  return a / gcd(a, b) * b;
-}
+inline i64 lcm(i64 a, i64 b) { return a / gcd(a, b) * b; }
 
 template <typename T, typename S>
-inline bool amax(T& a, const S& b) {
-  return ((a > b) ? (a = b, 1) : 0);
-}
-
-template <typename T, typename S>
-inline bool amin(T& a, const S& b) {
+inline bool amax(T &a, const S &b) {
   return ((a < b) ? (a = b, 1) : 0);
 }
 
+template <typename T, typename S>
+inline bool amin(T &a, const S &b) {
+  return ((a > b) ? (a = b, 1) : 0);
+}
+
 template <typename T>
-istream& operator>>(istream& is, vector<T>& v) {
-  for (auto& x : v) is >> x;
+istream &operator>>(istream &is, vector<T> &v) {
+  for (auto &x : v) is >> x;
   return is;
 }
 
 template <typename T>
-ostream& operator<<(ostream& os, vector<T>& v) {
+ostream &operator<<(ostream &os, vector<T> &v) {
   rep(i, v.size()) {
     if (i) os << ' ';
     os << v[i];
@@ -66,13 +64,13 @@ ostream& operator<<(ostream& os, vector<T>& v) {
 }
 
 template <typename T, typename S>
-istream& operator>>(istream& is, pair<T, S>& p) {
+istream &operator>>(istream &is, pair<T, S> &p) {
   is >> p.first >> p.second;
   return is;
 }
 
 template <typename T, typename S>
-ostream& operator<<(ostream& os, pair<T, S>& p) {
+ostream &operator<<(ostream &os, pair<T, S> &p) {
   os << p.first << ' ' << p.second;
   return os;
 }
@@ -82,6 +80,51 @@ inline u64 xorshift() {
   x = x ^ (x << 7);
   return x = x ^ (x >> 9);
 }
+
+template <typename T = i64>
+struct Vec2 {
+  T x, y;
+  Vec2() : x(0), y(0) {}
+  Vec2(T x, T y) : x(x), y(y) {}
+  Vec2 &operator+=(Vec2 that) {
+    x += that.x, y += that.y;
+    return *this;
+  }
+  Vec2 &operator-=(Vec2 that) {
+    x -= that.x, y -= that.y;
+    return *this;
+  }
+  Vec2 &operator*=(T s) {
+    x *= s, y *= s;
+    return *this;
+  }
+  Vec2 &operator/=(T s) {
+    x /= s, y /= s;
+    return *this;
+  }
+  Vec2 operator+(Vec2 that) const { return Vec2(*this) += that; }
+  Vec2 operator-(Vec2 that) const { return Vec2(*this) -= that; }
+  Vec2 operator*(T that) const { return Vec2(*this) *= that; }
+  Vec2 operator/(T that) const { return Vec2(*this) /= that; }
+  T dot(Vec2 that) const { return x * that.x + y * that.y; }
+  T cross(Vec2 that) const { return x * that.y - y * that.x; }
+  T length() const { return hypot(x, y); }
+  Vec2 normal() const { return Vec2(*this) / (*this).length(); }
+
+  T manhattan() { return abs(this->x) + abs(this->y); }
+
+  T manhattan(const Vec2 &that) {
+    return abs(this->x - that.x) + abs(this->y - that.y);
+  }
+
+  Vec2 rot90() { return Vec2(-this->y, this->x); }
+
+  friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y; }
+
+  friend ostream &operator<<(ostream &os, Vec2 &v) {
+    return os << v.x << " " << v.y;
+  }
+};
 
 void solve();
 
