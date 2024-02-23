@@ -1,5 +1,8 @@
 #include "library/main.hpp"
 
+#include <atcoder/all>
+using namespace atcoder;
+
 int main() {
   int x, y;
   cin >> x >> y;

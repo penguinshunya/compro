@@ -11,7 +11,13 @@
 
 using namespace std;
 
+using i32 = int;
 using i64 = long long;
+using f64 = double;
+using vi32 = vector<i32>;
+using vi64 = vector<i64>;
+using vf64 = vector<f64>;
+using vstr = vector<string>;
 
 template <typename T, typename S>
 inline bool chmax(T &a, const S &b) {

@@ -3,6 +3,15 @@
     "*.ejs": "html",
     "*.tsx": "typescriptreact",
     "*.css": "tailwindcss",
-    "random": "cpp"
+    "random": "cpp",
+    "all": "cpp"
+  },
+  "files.exclude": {
+    ".devcontainer": true,
+    ".github": true,
+    ".gitmodules": true,
+    ".vscode": true,
+    "ac-library": true,
+    "README.md": true
   }
 }
