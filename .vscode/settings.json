@@ -13,5 +13,6 @@
     ".vscode": true,
     "ac-library": true,
     "README.md": true
-  }
+  },
+  "C_Cpp.formatting": "vcFormat"
 }
