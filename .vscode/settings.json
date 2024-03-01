@@ -10,7 +10,11 @@
     "*.tcc": "cpp",
     "ranges": "cpp",
     "cmath": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "complex": "cpp",
+    "iostream": "cpp",
+    "numeric": "cpp",
+    "iomanip": "cpp"
   },
   "files.exclude": {
     ".github": true,
@@ -19,5 +23,6 @@
     "ac-library": true,
     "README.md": true
   },
-  "C_Cpp.formatting": "default"
+  "C_Cpp.formatting": "default",
+  "C_Cpp.clang_format_style": "{ BinPackArguments: true, AllowShortIfStatementsOnASingleLine: AllIfsAndElse }"
 }

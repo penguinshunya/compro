@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 #define rep(i, n) for (int i = 0; i < int(n); i++)
 #define rrep(i, n) for (int i = int(n) - 1; i >= 0; i--)
 #define reps(i, n) for (int i = 1; i <= int(n); i++)
@@ -11,11 +12,8 @@
 using namespace std;
 
 using i64 = long long;
-using u64 = unsigned long long;
 using f80 = long double;
-using vi32 = vector<int>;
 using vi64 = vector<i64>;
-using vu64 = vector<u64>;
 using vf80 = vector<f80>;
 using vstr = vector<string>;
 
@@ -24,38 +22,35 @@ const i64 LINF = 1001001001001001001ll;
 const int dx[] = {1, 0, -1, 0, 1, -1, -1, 1};
 const int dy[] = {0, 1, 0, -1, 1, 1, -1, -1};
 
-inline i64 gcd(i64 a, i64 b) {
+i64 gcd(i64 a, i64 b) {
   if (b == 0) return a;
   return gcd(b, a % b);
 }
 
-inline pair<i64, i64> extgcd(i64 a, i64 b) {
+pair<i64, i64> extgcd(i64 a, i64 b) {
   if (b == 0) return make_pair(1, 0);
   auto [y, x] = extgcd(b, a % b);
   y -= a / b * x;
   return make_pair(x, y);
 }
 
-inline i64 lcm(i64 a, i64 b) { return a / gcd(a, b) * b; }
+i64 lcm(i64 a, i64 b) { return a / gcd(a, b) * b; }
 
-template <typename T, typename S>
-inline bool amax(T &a, const S &b) {
+template <typename T, typename S> inline bool amax(T &a, const S &b) {
   return ((a < b) ? (a = b, 1) : 0);
 }
 
-template <typename T, typename S>
-inline bool amin(T &a, const S &b) {
+template <typename T, typename S> inline bool amin(T &a, const S &b) {
   return ((a > b) ? (a = b, 1) : 0);
 }
 
-template <typename T>
-istream &operator>>(istream &is, vector<T> &v) {
-  for (auto &x : v) is >> x;
+template <typename T> istream &operator>>(istream &is, vector<T> &v) {
+  for (auto &x : v)
+    is >> x;
   return is;
 }
 
-template <typename T>
-ostream &operator<<(ostream &os, vector<T> &v) {
+template <typename T> ostream &operator<<(ostream &os, vector<T> &v) {
   rep(i, v.size()) {
     if (i) os << ' ';
     os << v[i];
@@ -75,14 +70,13 @@ ostream &operator<<(ostream &os, pair<T, S> &p) {
   return os;
 }
 
-inline u64 xorshift() {
-  static u64 x = 88172645463325252ull;
+inline unsigned long long xorshift() {
+  static unsigned long long x = 88172645463325252ull;
   x = x ^ (x << 7);
   return x = x ^ (x >> 9);
 }
 
-template <typename T = i64>
-struct Vec2 {
+template <typename T = double> struct Vec2 {
   T x, y;
   Vec2() : x(0), y(0) {}
   Vec2(T x, T y) : x(x), y(y) {}
@@ -111,8 +105,6 @@ struct Vec2 {
   T length() const { return hypot(x, y); }
   Vec2 normal() const { return Vec2(*this) / (*this).length(); }
 
-  T manhattan() { return abs(this->x) + abs(this->y); }
-
   T manhattan(const Vec2 &that) {
     return abs(this->x - that.x) + abs(this->y - that.y);
   }
@@ -125,6 +117,13 @@ struct Vec2 {
     return os << v.x << " " << v.y;
   }
 };
+
+// #include <boost/multiprecision/cpp_dec_float.hpp>
+// #include <boost/multiprecision/cpp_int.hpp>
+
+// using Bint = boost::multiprecision::cpp_int;
+// using Real =
+//     boost::multiprecision::number<boost::multiprecision::cpp_dec_float<128>>;
 
 void solve();
 
