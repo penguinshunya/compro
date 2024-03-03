@@ -47,3 +47,8 @@ auto get = [&](int i) {
   return ret;
 };
 ```
+
+## multisetの要素の削除
+
+`ms.erase(1)`だと複数の要素が一括で削除される。  
+`ms.erase(ms.find(1))`であれば一つの要素だけが削除される。
