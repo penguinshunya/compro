@@ -7,16 +7,16 @@ using vi64 = vector<i64>;
 using vf80 = vector<f80>;
 using vstr = vector<string>;
 
-#define rep(i, n) for (i64 i = 0; i < i64(n); i++)
-#define rrep(i, n) for (i64 i = i64(n) - 1; i >= 0; i--)
-#define reps(i, n) for (i64 i = 1; i <= i64(n); i++)
-#define rreps(i, n) for (i64 i = i64(n); i >= 1; i--)
-#define repc(i, n) for (i64 i = 0; i <= i64(n); i++)
-#define rrepc(i, n) for (i64 i = i64(n); i >= 0; i--)
-#define repi(i, a, b) for (i64 i = i64(a); i < i64(b); i++)
-#define rrepi(i, a, b) for (i64 i = i64(b) - 1; i >= i64(a); i--)
-#define repic(i, a, b) for (i64 i = i64(a); i <= i64(b); i++)
-#define rrepic(i, a, b) for (i64 i = i64(b); i >= i64(a); i--)
+#define rep(i, n) for (int i = 0; i < int(n); i++)
+#define rrep(i, n) for (int i = int(n) - 1; i >= 0; i--)
+#define reps(i, n) for (int i = 1; i <= int(n); i++)
+#define rreps(i, n) for (int i = int(n); i >= 1; i--)
+#define repc(i, n) for (int i = 0; i <= int(n); i++)
+#define rrepc(i, n) for (int i = int(n); i >= 0; i--)
+#define repi(i, a, b) for (int i = int(a); i < int(b); i++)
+#define rrepi(i, a, b) for (int i = int(b) - 1; i >= int(a); i--)
+#define repic(i, a, b) for (int i = int(a); i <= int(b); i++)
+#define rrepic(i, a, b) for (int i = int(b); i >= int(a); i--)
 #define all(a) (a).begin(), (a).end()
 
 const int INF = 1001001001;
@@ -47,11 +47,11 @@ template <typename T> inline T power(T x, i64 n, T e = 1) {
   return r;
 }
 
-template <typename T, typename S> inline bool amax(T &a, const S &b) {
+template <typename T, typename S> inline bool chmax(T &a, const S &b) {
   return ((a < b) ? (a = b, true) : false);
 }
 
-template <typename T, typename S> inline bool amin(T &a, const S &b) {
+template <typename T, typename S> inline bool chmin(T &a, const S &b) {
   return ((a > b) ? (a = b, true) : false);
 }
 
@@ -87,47 +87,48 @@ inline unsigned long long xorshift() {
   return x = x ^ (x >> 9);
 }
 
-template <typename T = i64> struct Vec2 {
-  T x, y;
-  Vec2() : x(0), y(0) {}
-  Vec2(T x, T y) : x(x), y(y) {}
-  Vec2 &operator+=(Vec2 that) {
-    x += that.x, y += that.y;
-    return *this;
-  }
-  Vec2 &operator-=(Vec2 that) {
-    x -= that.x, y -= that.y;
-    return *this;
-  }
-  Vec2 &operator*=(T s) {
-    x *= s, y *= s;
-    return *this;
-  }
-  Vec2 &operator/=(T s) {
-    x /= s, y /= s;
-    return *this;
-  }
-  Vec2 operator+(Vec2 that) const { return Vec2(*this) += that; }
-  Vec2 operator-(Vec2 that) const { return Vec2(*this) -= that; }
-  Vec2 operator*(T that) const { return Vec2(*this) *= that; }
-  Vec2 operator/(T that) const { return Vec2(*this) /= that; }
-  T dot(Vec2 that) const { return x * that.x + y * that.y; }
-  T cross(Vec2 that) const { return x * that.y - y * that.x; }
-  T length() const { return hypot(x, y); }
-  Vec2 normal() const { return Vec2(*this) / (*this).length(); }
+// template <typename T = i64> struct Vec2 {
+//   T x, y;
+//   Vec2() : x(0), y(0) {}
+//   Vec2(T x, T y) : x(x), y(y) {}
+//   Vec2 &operator+=(Vec2 that) {
+//     x += that.x, y += that.y;
+//     return *this;
+//   }
+//   Vec2 &operator-=(Vec2 that) {
+//     x -= that.x, y -= that.y;
+//     return *this;
+//   }
+//   Vec2 &operator*=(T s) {
+//     x *= s, y *= s;
+//     return *this;
+//   }
+//   Vec2 &operator/=(T s) {
+//     x /= s, y /= s;
+//     return *this;
+//   }
+//   Vec2 operator+(Vec2 that) const { return Vec2(*this) += that; }
+//   Vec2 operator-(Vec2 that) const { return Vec2(*this) -= that; }
+//   Vec2 operator*(T that) const { return Vec2(*this) *= that; }
+//   Vec2 operator/(T that) const { return Vec2(*this) /= that; }
+//   T dot(Vec2 that) const { return x * that.x + y * that.y; }
+//   T cross(Vec2 that) const { return x * that.y - y * that.x; }
+//   T length() const { return hypot(x, y); }
+//   Vec2 normal() const { return Vec2(*this) / (*this).length(); }
 
-  T manhattan(const Vec2 &that) {
-    return abs(this->x - that.x) + abs(this->y - that.y);
-  }
+//   T manhattan(const Vec2 &that) {
+//     return abs(this->x - that.x) + abs(this->y - that.y);
+//   }
 
-  Vec2 rotate90() { return Vec2(-this->y, this->x); }
+//   Vec2 rotate90() { return Vec2(-this->y, this->x); }
 
-  friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y; }
+//   friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y;
+//   }
 
-  friend ostream &operator<<(ostream &os, Vec2 &v) {
-    return os << v.x << " " << v.y;
-  }
-};
+//   friend ostream &operator<<(ostream &os, Vec2 &v) {
+//     return os << v.x << " " << v.y;
+//   }
+// };
 
 // #include <boost/multiprecision/cpp_dec_float.hpp>
 // #include <boost/multiprecision/cpp_int.hpp>

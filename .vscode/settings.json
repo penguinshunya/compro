@@ -32,8 +32,7 @@
     ".github": true,
     ".gitmodules": true,
     ".vscode": true,
-    "ac-library": true,
-    "README.md": true
+    "ac-library": true
   },
   "C_Cpp.formatting": "default",
   "C_Cpp.clang_format_style": "{ BinPackArguments: true, AllowShortIfStatementsOnASingleLine: AllIfsAndElse }"
