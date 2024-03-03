@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -144,4 +145,40 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+int cube[100][100][100];
+
+int cx[] = {-1, 1, 0, 0, 0, 0};
+int cy[] = {0, 0, -1, 1, 0, 0};
+int cz[] = {0, 0, 0, 0, -1, 1};
+
+void solve() {
+  rep(i, 100) rep(j, 100) rep(k, 100) cube[i][j][k] = -1;
+  int N;
+  cin >> N;
+  set<pair<int, int>> pairs;
+  rep(i, N) {
+    int x0, y0, z0, x1, y1, z1;
+    cin >> x0 >> y0 >> z0 >> x1 >> y1 >> z1;
+    repi(x, x0, x1) repi(y, y0, y1) repi(z, z0, z1) {
+      cube[x][y][z] = i;
+      rep(j, 6) {
+        int nx = x + cx[j];
+        int ny = y + cy[j];
+        int nz = z + cz[j];
+        if (nx < 0 || nx >= 100 || ny < 0 || ny >= 100 || nz < 0 || nz >= 100)
+          continue;
+        if (cube[nx][ny][nz] != -1 && cube[nx][ny][nz] != i) {
+          pairs.emplace(cube[nx][ny][nz], i);
+        }
+      }
+    }
+  }
+  vector<int> ans(N);
+  for (auto [u, v] : pairs) {
+    ans[u]++, ans[v]++;
+  }
+  rep(i, N) cout << ans[i] << '\n';
 }

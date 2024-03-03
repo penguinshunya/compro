@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -144,4 +145,29 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  vstr code = {
+      "###.?????", "###.?????", "###.?????", "....?????", "?????????",
+      "?????....", "?????.###", "?????.###", "?????.###",
+  };
+  int N, M;
+  cin >> N >> M;
+  vstr s(N);
+  cin >> s;
+  for (int i = 0; i + 9 <= N; i++) {
+    for (int j = 0; j + 9 <= M; j++) {
+      bool ok = true;
+      rep(ii, 9) rep(jj, 9) {
+        if (code[ii][jj] != '?' && code[ii][jj] != s[i + ii][j + jj]) {
+          ok = false;
+        }
+      }
+      if (ok) {
+        cout << i + 1 << " " << j + 1 << '\n';
+      }
+    }
+  }
 }

@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -144,4 +145,29 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+#include <atcoder/all>
+using namespace atcoder;
+using mint = modint998244353;
+
+mint dp[3001][1600];
+
+void solve() {
+  string s;
+  cin >> s;
+  int n = s.size();
+  dp[0][0] = 1;
+  rep(i, n) repc(j, 1500) {
+    if (s[i] == '(') {
+      dp[i + 1][j + 1] += dp[i][j];
+    } else if (s[i] == ')') {
+      if (j > 0) dp[i + 1][j - 1] += dp[i][j];
+    } else {
+      dp[i + 1][j + 1] += dp[i][j];
+      if (j > 0) dp[i + 1][j - 1] += dp[i][j];
+    }
+  }
+  cout << dp[n][0].val() << endl;
 }

@@ -1,49 +1,36 @@
 #include "library/main.hpp"
 
-#include <atcoder/all>
-using namespace atcoder;
-using mint = modint998244353;
-
 void solve() {
   int N;
   cin >> N;
-  dsu dsu(N);
-  vector<int> parent(N);
-  rep(i, N) parent[i] = i;
-  vector<pair<int, int>> to(N);
+  vector<vector<int>> to(N);
   rep(i, N - 1) {
-    int p, q;
-    cin >> p >> q;
-    p--, q--;
-    int pa = to.size();
-    int lp = parent[dsu.leader(p)];
-    int lq = parent[dsu.leader(q)];
-    to.emplace_back(lp, lq);
-    dsu.merge(p, q);
-    parent[dsu.leader(p)] = pa;
+    int u, v;
+    cin >> u >> v;
+    u--, v--;
+    to[u].emplace_back(v);
+    to[v].emplace_back(u);
   }
-  int m = to.size();
-  int root = m - 1;
-  vector<pair<int, int>> size(m);
-  auto dfs = [&](auto dfs, int u) -> int {
-    if (u >= 0 && u < N) return 1;
-    int le = dfs(dfs, to[u].first);
-    int ri = dfs(dfs, to[u].second);
-    size[u] = {le, ri};
-    return le + ri;
-  };
-  dfs(dfs, root);
-  vector<mint> ans(N);
-  auto dfs2 = [&](auto dfs2, int u, mint acc) -> void {
-    if (u >= 0 && u < N) {
-      ans[u] = acc;
-      return;
+  i64 ans = 0;
+  auto dfs = [&](auto dfs, int u, int p) -> int {
+    vector<int> sums;
+    for (auto v : to[u]) {
+      if (v == p) continue;
+      sums.push_back(dfs(dfs, v, u));
     }
-    int sum = size[u].first + size[u].second;
-    dfs2(dfs2, to[u].first, mint(size[u].first) / sum + acc);
-    dfs2(dfs2, to[u].second, mint(size[u].second) / sum + acc);
+    int su = accumulate(all(sums), 0);
+
+    sums.push_back(N - su - 1);
+    vector<i64> dp_(4);
+    dp_[0] = 1;
+    for (auto sum : sums) {
+      rreps(i, 3) dp_[i] += dp_[i - 1] * sum;
+    }
+    ans += dp_[3];
+    sums.pop_back();
+
+    return su + 1;
   };
-  dfs2(dfs2, root, 0);
-  rep(i, N) cout << ans[i].val() << " ";
-  cout << endl;
+  dfs(dfs, 0, -1);
+  cout << ans << endl;
 }

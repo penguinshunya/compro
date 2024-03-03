@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -144,4 +145,22 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  int N, M;
+  cin >> N >> M;
+  vector<int> A(N), B(M);
+  cin >> A >> B;
+  int ok = INF, ng = 0;
+  while (ok - ng != 1) {
+    int md = (ok + ng) / 2;
+    int ac = 0, bc = 0;
+    rep(i, N) ac += A[i] <= md;
+    rep(i, M) bc += B[i] >= md;
+    if (ac >= bc) ok = md;
+    else ng = md;
+  }
+  cout << ok << endl;
 }

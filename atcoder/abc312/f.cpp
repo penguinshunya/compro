@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -144,4 +145,44 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  int N, M;
+  cin >> N >> M;
+  i64 ans = 0;
+  priority_queue<int, vector<int>, greater<int>> pq;
+  i64 sum = 0;
+  auto add = [&](int x) {
+    pq.emplace(x);
+    sum += x;
+    while (pq.size() > M) {
+      sum -= pq.top();
+      pq.pop();
+    }
+    amax(ans, sum);
+  };
+  vector<int> one, two;
+  rep(i, N) {
+    int type, x;
+    cin >> type >> x;
+    if (type == 0) add(x);
+    else if (type == 1) {
+      one.push_back(x);
+    } else {
+      two.push_back(x);
+    }
+  }
+  sort(all(one));
+  sort(all(two)), reverse(all(two));
+  for (auto t : two) {
+    M--;
+    int m = one.size();
+    for (int i = 0; i < min(t, m); i++) {
+      add(one.back());
+      one.pop_back();
+    }
+  }
+  cout << ans << endl;
 }
