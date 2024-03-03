@@ -1,32 +1,32 @@
 #include "library/main.hpp"
 
 void solve() {
-  int H, W, N;
-  cin >> H >> W >> N;
-  auto holes = vector(H + 1, vector(W + 1, 0));
-  rep(i, N) {
-    int a, b;
-    cin >> a >> b;
-    holes[a][b] += 1;
+  int N, M;
+  cin >> N >> M;
+  auto mat = vector(N, vector(N, INF));
+  rep(i, N) mat[i][i] = 0;
+  rep(i, M) {
+    int u, v, w;
+    cin >> u >> v >> w;
+    u--, v--;
+    mat[u][v] = w;
   }
-  reps(i, H) reps(j, W) {
-    holes[i][j] += holes[i - 1][j] + holes[i][j - 1] - holes[i - 1][j - 1];
+  rep(k, N) rep(i, N) rep(j, N) {
+    if (mat[i][k] == INF || mat[k][j] == INF) continue;
+    amin(mat[i][j], mat[i][k] + mat[k][j]);
   }
-  i64 ans = 0;
-  reps(i, H) reps(j, W) {
-    int ok = 0, ng = 3010;
-    while (ng - ok != 1) {
-      int md = (ok + ng) / 2;
-      if (i - md < 0 || j - md < 0) {
-        ng = md;
-        continue;
-      }
-      int pi = i - md, pj = j - md;
-      int cnt = holes[i][j] - holes[i][pj] - holes[pi][j] + holes[pi][pj];
-      if (cnt == 0) ok = md;
-      else ng = md;
-    }
-    ans += ok;
+  auto dp = vector(1 << N, vector(N, INF));
+  rep(i, N) dp[1 << i][i] = 0;
+  rep(s, 1 << N) rep(u, N) rep(v, N) {
+    if (dp[s][u] == INF || mat[u][v] == INF) continue;
+    if (s >> v & 1) continue;
+    amin(dp[s | (1 << v)][v], dp[s][u] + mat[u][v]);
+  }
+  int ans = INF;
+  rep(i, N) amin(ans, dp[(1 << N) - 1][i]);
+  if (ans == INF) {
+    cout << "No" << endl;
+    return;
   }
   cout << ans << endl;
 }
