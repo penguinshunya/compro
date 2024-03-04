@@ -157,3 +157,16 @@ for (int t = s;; t = (t - 1) & s) {
   if (t == 0) break;
 }
 ```
+
+## 整数から文字列への変換
+
+`to_string`を使う。  
+以下のコードは`to_string`を用いた回文判定のコード。
+
+```cpp
+long long x = 1334996994331ll;
+string s = to_string(x);
+string t = s;
+reverse(t.begin(), t.end());
+cout << (s == t ? "Yes" : "No") << endl;  //=> Yes
+```
