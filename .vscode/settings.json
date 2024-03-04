@@ -28,7 +28,8 @@
     "regex": "cpp",
     "valarray": "cpp",
     "bitset": "cpp",
-    "utility": "cpp"
+    "utility": "cpp",
+    "bit": "cpp"
   },
   "files.exclude": {
     ".github": true,

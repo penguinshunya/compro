@@ -136,3 +136,24 @@ rec(rec, 0);
 cout << cnt << endl; //=> 115975
 ```
 </details>
+
+## ビット操作
+
+|関数|説明|
+|-|-|
+|`__builtin_popcount`|ビットの 1 の数を返す|
+|`bit_width`|整数のビット幅を返す。引数はunsigned|
+
+## ビット集合の部分集合の列挙
+
+```cpp
+// 昇順
+for (int t = 0;; t = (t - s) & s) {
+  if (t == s) break;
+}
+
+// 降順
+for (int t = s;; t = (t - 1) & s) {
+  if (t == 0) break;
+}
+```
