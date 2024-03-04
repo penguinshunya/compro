@@ -105,3 +105,31 @@ auto get = [&](int i) {
 |13|27,644,437|
 |14|190,899,322|
 |15|1,382,958,545|
+
+<details>
+<summary>自然とベル数になる全探索のコード</summary>
+
+```cpp
+const int N = 10;
+int cnt = 0;
+
+vector<vector<int>> v;
+auto rec = [&](auto rec, int x) -> void {
+  if (x == N) {
+    cnt++;
+    return;
+  }
+  for (int i = 0; i < v.size(); i++) {
+    v[i].push_back(x);
+    rec(rec, x + 1);
+    v[i].pop_back();
+  }
+  v.push_back({x});
+  rec(rec, x + 1);
+  v.pop_back();
+};
+rec(rec, 0);
+
+cout << cnt << endl; //=> 115975
+```
+</details>
