@@ -23,7 +23,7 @@
 
 - `suf`：suffix。後ろから累積和を取ったもの
 
-## Tips
+# Tips
 
 ### multisetの要素の削除
 
