@@ -65,8 +65,6 @@ operate(100, -1);
 
 完全二分木の区間更新と一点取得は次のようにシンプルに実装できる。
 
-<details>
-
 ```cpp
 auto update = [&](int l, int r, int x) {
   l += N, r += N;
@@ -87,7 +85,6 @@ auto get = [&](int i) {
   return ret;
 };
 ```
-</details>
 
 ### $n$ 人を区別のない $k$ 個以下のグループに分ける場合の数（ベル数）
 
