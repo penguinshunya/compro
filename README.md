@@ -6,6 +6,7 @@
 - 別の問題に言い換える
 - 何かを固定する
 - 添字についてきちんと決めてから実装しはじめる
+- 計算量を見積もってから実装しはじめる
 
 ## 個人的に必要な用語
 
@@ -232,3 +233,51 @@ mask = (1 << N) - 1
 ![](./images/93e245e8-12b2-4409-b005-2740081235a7.png)
 
 このように、ある頂点の色が別の頂点の塗り方に影響を与えるとき、それをDPで解くことはおそらくできない。よって、何らかの言い換えをする必要がある。
+
+### ABCのCやDで出題される実装重めの問題を雑に解きがち
+
+良くない傾向。  
+そもそも「実装重め」という認識が誤りの可能性がある。  
+実装が重いと言われているABC343のE問題は、共通部分を構造体や関数という形で適切に切り出すと40行にも満たない。
+
+<details>
+<summary>40行にも満たないコード</summary>
+
+```cpp
+struct Cube {
+  int a, b, c;
+  Cube(int a, int b, int c) : a(a), b(b), c(c) {}
+  int count(Cube x, Cube y) {
+    int _a = max(0, (min({a, x.a, y.a}) + 7) - max({a, x.a, y.a}));
+    int _b = max(0, (min({b, x.b, y.b}) + 7) - max({b, x.b, y.b}));
+    int _c = max(0, (min({c, x.c, y.c}) + 7) - max({c, x.c, y.c}));
+    return _a * _b * _c;
+  }
+  int count(Cube x) { return count(x, x); }
+  void print() { cout << a << " " << b << " " << c << endl; }
+};
+
+void solve() {
+  int V1, V2, V3;
+  cin >> V1 >> V2 >> V3;
+  vector<Cube> lst;
+  repic(i, -7, 7) repic(j, -7, 7) repic(k, -7, 7) {
+    lst.push_back(Cube(i, j, k));
+  }
+  for (auto c2 : lst) {
+    for (auto c3 : lst) {
+      Cube c1(0, 0, 0);
+      int v3 = c1.count(c2, c3);
+      int v2 = c1.count(c2) + c2.count(c3) + c3.count(c1) - v3 * 3;
+      int v1 = 7 * 7 * 7 * 3 - v2 * 2 - v3 * 3;
+      if (v1 == V1 && v2 == V2 && v3 == V3) {
+        cout << "Yes" << endl;
+        c1.print(), c2.print(), c3.print();
+        return;
+      }
+    }
+  }
+  cout << "No" << endl;
+}
+```
+</details>
