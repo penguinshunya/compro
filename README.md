@@ -37,3 +37,4 @@
 ## 他のドキュメントへのリンク
 
 - [Tips](./docs/tips.md)
+- [確率論](./docs/probability_theory.md)
