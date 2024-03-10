@@ -3,6 +3,7 @@
     "*.ejs": "html",
     "*.tsx": "typescriptreact",
     "*.css": "tailwindcss",
+    "*.cpp": "cpp",
     "random": "cpp",
     "all": "cpp",
     "ostream": "cpp",
@@ -29,7 +30,8 @@
     "valarray": "cpp",
     "bitset": "cpp",
     "utility": "cpp",
-    "bit": "cpp"
+    "bit": "cpp",
+    "iosfwd": "cpp"
   },
   "files.exclude": {
     ".github": true,
