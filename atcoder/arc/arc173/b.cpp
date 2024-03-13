@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -119,8 +120,7 @@ template <typename T = i64> struct Vec2 {
     return abs(this->x - that.x) + abs(this->y - that.y);
   }
   Vec2 rotate90() { return Vec2(-this->y, this->x); }
-  friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y;
-  }
+  friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y; }
   friend ostream &operator<<(ostream &os, Vec2 &v) {
     return os << v.x << " " << v.y;
   }
@@ -141,4 +141,23 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  int N;
+  cin >> N;
+  vector<Vec2<>> P(N);
+  rep(i, N) cin >> P[i];
+  int ma = 0;
+  rep(i, N) rep(j, N) {
+    if (i == j) continue;
+    int cnt = 2;
+    rep(k, N) if (i != k && j != k) {
+      auto c = (P[j] - P[i]).cross(P[k] - P[i]);
+      if (c == 0) cnt++;
+    }
+    chmax(ma, cnt);
+  }
+  cout << min(N / 3, N - ma) << endl;
 }
