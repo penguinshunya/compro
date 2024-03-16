@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -143,4 +144,69 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  int H, W, T;
+  cin >> H >> W >> T;
+  vstr A(H);
+  cin >> A;
+  Vec2<> S, G;
+  vector<Vec2<>> points;
+  rep(i, H) rep(j, W) {
+    if (A[i][j] == 'S') S = Vec2<>(i, j);
+    if (A[i][j] == 'G') G = Vec2<>(i, j);
+    if (A[i][j] == 'o') points.emplace_back(i, j);
+  }
+  points.insert(points.begin(), S);
+  points.push_back(G);
+  auto tou = [&](Vec2<> p) {
+    rep(i, points.size()) if (points[i] == p) return i;
+    assert(false);
+  };
+  int N = points.size();
+  vector<vector<int>> to(N, vector<int>(N, INF));
+  rep(i, N) to[i][i] = 0;
+  rep(i, N) {
+    auto p = points[i];
+    vector<vector<int>> dist(H, vector<int>(W, INF));
+    queue<tuple<int, int, int>> q;
+    dist[p.x][p.y] = 0;
+    q.emplace(p.x, p.y, 0);
+    while (q.size()) {
+      auto [x, y, d] = q.front();
+      q.pop();
+      rep(i, 4) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        if (nx < 0 || nx >= H || ny < 0 || ny >= W) continue;
+        if (A[nx][ny] == '#') continue;
+        if (dist[nx][ny] != INF) continue;
+        dist[nx][ny] = d + 1;
+        q.emplace(nx, ny, d + 1);
+      }
+    }
+    rep(j, N) if (i != j) {
+      auto q = points[j];
+      to[i][j] = to[j][i] = dist[q.x][q.y];
+    }
+  }
+  rep(k, N) rep(i, N) rep(j, N) chmin(to[i][j], to[i][k] + to[k][j]);
+  auto dp = vector(1 << N, vector(N, INF));
+  dp[1][0] = 0;
+  rep(s, 1 << N) rep(i, N) {
+    if (dp[s][i] == INF) continue;
+    rep(j, N) if (i != j && !(s >> j & 1)) {
+      chmin(dp[s | (1 << j)][j], dp[s][i] + to[i][j]);
+    }
+  }
+  int ans = -1;
+  rep(s, 1 << N) {
+    if (s & 1 && (s >> (N - 1) & 1) && dp[s][N - 1] <= T) {
+      int cnt = __builtin_popcount(s) - 2;
+      chmax(ans, cnt);
+    }
+  }
+  cout << ans << endl;
 }

@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -143,4 +144,58 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+#include <atcoder/all>
+using namespace atcoder;
+
+void solve() {
+  int N, M, K;
+  cin >> N >> M >> K;
+  if (K % 2 == 1) {
+    cout << "No" << endl;
+    return;
+  }
+  dsu dsu(N);
+  vector<vector<pair<int, int>>> to(N);
+  rep(i, M) {
+    int u, v;
+    cin >> u >> v;
+    u--, v--;
+    if (dsu.same(u, v)) continue;
+    dsu.merge(u, v);
+    to[u].emplace_back(v, i);
+    to[v].emplace_back(u, i);
+  }
+  int cnt = 0;
+  vector<int> dp(N);
+  vector<int> ans;
+  auto dfs = [&](auto dfs, int u, int p) -> bool {
+    for (auto [v, id] : to[u]) {
+      if (v == p) continue;
+      if (dfs(dfs, v, u)) return true;
+      if (dp[v]) continue;
+
+      dp[v] ^= 1;
+      dp[u] ^= 1;
+      ans.push_back(id + 1);
+      if (dp[u]) cnt += 2;
+      if (cnt == K) return true;
+    }
+    return false;
+  };
+  unordered_set<int> done;
+  rep(i, N) {
+    if (done.count(dsu.leader(i)) > 0) continue;
+    dfs(dfs, i, -1);
+    if (cnt == K) {
+      cout << "Yes" << endl;
+      cout << ans.size() << endl;
+      cout << ans << endl;
+      return;
+    }
+    done.insert(dsu.leader(i));
+  }
+  cout << "No" << endl;
 }
