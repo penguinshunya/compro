@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -169,4 +170,24 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  i64 N;
+  cin >> N;
+  auto primes = sieve(300000);
+  int ans = 0;
+  for (int i = 0; i < primes.size(); i++) {
+    for (int j = i + 2; j < primes.size(); j++) {
+      i64 a = primes[i];
+      i64 c = primes[j];
+      if (a * a >= ceil<i64>(N + 1, c * c)) break;
+      i64 bmax = floor<i64>(N, a * a * c * c);
+      chmin(bmax, primes[j - 1]);
+      int r = upper_bound(all(primes), bmax) - primes.begin();
+      ans += max(0, r - (i + 1));
+    }
+  }
+  cout << ans << endl;
 }
