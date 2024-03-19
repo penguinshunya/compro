@@ -113,6 +113,19 @@ inline unsigned long long xorshift() {
   return x = x ^ (x >> 9);
 }
 
+template <typename T> struct Compress {
+  vector<T> v;
+  Compress() {}
+  Compress(vector<T> v) : v(v) { build(); }
+  void insert(T x) { v.push_back(x); }
+  void build() {
+    sort(all(v));
+    v.erase(unique(all(v)), v.end());
+  }
+  int get(T x) { return lower_bound(all(v), x) - v.begin(); }
+  int size() { return v.size(); }
+};
+
 template <typename T = i64> struct Vec2 {
   T x, y;
   Vec2() : x(0), y(0) {}
