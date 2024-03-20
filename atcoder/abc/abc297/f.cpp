@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -126,27 +127,6 @@ template <typename T> struct Compress {
   int size() { return v.size(); }
 };
 
-template <typename T> struct Combination {
-  vector<T> facc;
-  vector<T> finv;
-  Combination(int max) {
-    facc.resize(max + 1);
-    finv.resize(max + 1);
-    facc[0] = 1;
-    for (int i = 0; i < max; i++) {
-      facc[i + 1] = facc[i] * (i + 1);
-    }
-    finv[max] = (T)1 / facc[max];
-    for (int i = max; i > 0; i--) {
-      finv[i - 1] = finv[i] * i;
-    }
-  }
-  T operator()(int a, int b) {
-    if (a < 0 || b < 0 || b > a) return 0;
-    return facc[a] * finv[a - b] * finv[b];
-  }
-};
-
 template <typename T = i64> struct Vec2 {
   T x, y;
   Vec2() : x(0), y(0) {}
@@ -203,4 +183,85 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+#include <atcoder/all>
+using namespace atcoder;
+using mint = modint998244353;
+
+template <typename T> struct Combination {
+  vector<T> facc;
+  vector<T> finv;
+  Combination(int max) {
+    facc.resize(max + 1);
+    finv.resize(max + 1);
+    facc[0] = 1;
+    for (int i = 0; i < max; i++) {
+      facc[i + 1] = facc[i] * (i + 1);
+    }
+    finv[max] = (T)1 / facc[max];
+    for (int i = max; i > 0; i--) {
+      finv[i - 1] = finv[i] * i;
+    }
+  }
+  T operator()(int a, int b) {
+    if (a < 0 || b < 0 || b > a) return 0;
+    return facc[a] * finv[a - b] * finv[b];
+  }
+};
+
+void solve() {
+  auto comb = Combination<mint>(1000000);
+  int H, W, K;
+  cin >> H >> W >> K;
+  if (K == 1) {
+    cout << 1 << endl;
+    return;
+  }
+  mint ans = 0;
+  reps(h, H) reps(w, W) {
+    if (h == 1 && w == 1) continue;
+    bool sw = false;
+    if (h > w) swap(h, w), swap(H, W), sw = true;
+    mint sum = 0;
+    if (h == 1 && w >= 2) {
+      sum += comb(w - 2, K - 2);
+    } else {
+      // 4隅にある
+      sum += 1 * comb(h * w - 4, K - 4);
+      // 3隅にある
+      sum += 4 * comb(h * w - 4, K - 3);
+      // 対角の2隅にある
+      sum += 2 * comb(h * w - 4, K - 2);
+      // 縦の2隅にある
+      sum += 2 * (comb(h * w - 4, K - 2) - comb(h * (w - 1) - 2, K - 2));
+      // 横の2隅にある
+      sum += 2 * (comb(h * w - 4, K - 2) - comb((h - 1) * w - 2, K - 2));
+      // 1隅にある
+      sum += 4 * (0                                         //
+                  + 1 * comb(h * w - 4, K - 1)              //
+                  - 1 * comb(h * (w - 1) - 2, K - 1)        //
+                  - 1 * comb((h - 1) * w - 2, K - 1)        //
+                  + 1 * comb((h - 1) * (w - 1) - 1, K - 1)) //
+          ;
+      // どの隅にもない
+      sum += 0                                    //
+             + 1 * comb(h * w - 4, K)             //
+             - 2 * comb(h * (w - 1) - 2, K)       //
+             - 2 * comb((h - 1) * w - 2, K)       //
+             + 4 * comb((h - 1) * (w - 1) - 1, K) //
+             + 1 * comb(h * (w - 2), K)           //
+             + 1 * comb((h - 2) * w, K)           //
+             - 2 * comb((h - 2) * (w - 1), K)     //
+             - 2 * comb((h - 1) * (w - 2), K)     //
+             + 1 * comb((h - 2) * (w - 2), K)     //
+          ;
+    }
+    sum = sum * (H - h + 1) * (W - w + 1) * h * w;
+    ans += sum;
+    if (sw) swap(h, w), swap(H, W);
+  }
+  ans /= comb(H * W, K);
+  cout << ans.val() << endl;
 }

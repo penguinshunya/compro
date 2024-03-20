@@ -31,7 +31,20 @@
     "bitset": "cpp",
     "utility": "cpp",
     "bit": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "any": "cpp",
+    "memory": "cpp",
+    "optional": "cpp",
+    "fstream": "cpp",
+    "future": "cpp",
+    "istream": "cpp",
+    "shared_mutex": "cpp",
+    "sstream": "cpp",
+    "stop_token": "cpp",
+    "streambuf": "cpp",
+    "thread": "cpp",
+    "functional": "cpp",
+    "variant": "cpp"
   },
   "files.exclude": {
     ".github": true,
