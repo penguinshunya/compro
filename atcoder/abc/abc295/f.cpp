@@ -213,26 +213,22 @@ i64 calc(string S, i64 m) {
   // dp[何桁目まで][桁DP][1以上か][何桁目まで一致したか]
   auto dp = vector(M.size() + 1, vector(2, vector(2, vector(N + 1, 0ll))));
   dp[0][0][0][0] = 1;
-  rep(i, M.size()) {
+  rep(i, M.size()) rep(j, 2) rep(k, 2) rep(d, 10) {
     int ni = i + 1;
     int md = M[i] - '0';
-    rep(j, 2) rep(k, 2) {
-      rep(d, 10) {
-        if (j == 0 && md < d) break;
-        int nj = j || md > d;
-        int nk = k || d > 0;
-        rep(l, N) {
-          int sd = S[l] - '0';
-          if (k == 0 && l == 0 && sd == 0) continue;
-          if (d == sd) {
-            int nl = l + 1;
-            dp[ni][nj][nk][nl] += dp[i][j][k][l];
-          }
-        }
-        dp[ni][nj][nk][0] += dp[i][j][k][0];
-        dp[ni][nj][nk][N] += dp[i][j][k][N];
+    if (j == 0 && md < d) break;
+    int nj = j || md > d;
+    int nk = k || d > 0;
+    rep(l, N) {
+      int sd = S[l] - '0';
+      if (k == 0 && l == 0 && sd == 0) continue;
+      if (d == sd) {
+        int nl = l + 1;
+        dp[ni][nj][nk][nl] += dp[i][j][k][l];
       }
     }
+    dp[ni][nj][nk][0] += dp[i][j][k][0];
+    dp[ni][nj][nk][N] += dp[i][j][k][N];
   }
   return dp[M.size()][0][1][N] + dp[M.size()][1][1][N];
 }
