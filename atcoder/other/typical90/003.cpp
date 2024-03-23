@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -207,4 +208,30 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+
+void solve() {
+  int N;
+  cin >> N;
+  vector<vector<int>> to(N);
+  rep(i, N - 1) {
+    int a, b;
+    cin >> a >> b;
+    a--, b--;
+    to[a].emplace_back(b);
+    to[b].emplace_back(a);
+  }
+  auto dfs = [&](auto dfs, int u, int p, int d) -> pair<int, int> {
+    auto ret = pair<int, int>(d, u);
+    for (auto v : to[u]) {
+      if (v == p) continue;
+      chmax(ret, dfs(dfs, v, u, d + 1));
+    }
+    return ret;
+  };
+  auto p1 = dfs(dfs, 0, -1, 0);
+  auto p2 = dfs(dfs, p1.second, -1, 0);
+  int ans = p2.first + 1;
+  cout << ans << endl;
 }
