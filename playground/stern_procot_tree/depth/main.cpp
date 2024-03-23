@@ -15,9 +15,6 @@ int main() {
   cin >> gx >> gy;
   auto g = gcd(gx, gy);
   gx /= g, gy /= g;
-  auto check = [&](Bint x, Bint y) {
-    if (x * gy == y * gx) return 1;
-  };
   auto dfs = [&](auto dfs, T t) -> int {
     auto [a, b, c, d] = t;
     auto x = a + c;
