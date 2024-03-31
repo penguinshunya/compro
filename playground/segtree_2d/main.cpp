@@ -1,5 +1,6 @@
 #include "library/main.hpp"
 
+// https://nyaannyaan.github.io/library/data-structure-2d/2d-segment-tree.hpp.html
 template <typename T, typename F> struct segtree2d {
   int H, W;
   vector<T> seg;
