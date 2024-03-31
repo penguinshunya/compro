@@ -93,111 +93,11 @@ ostream &operator<<(ostream &os, pair<T, S> &p) {
   return os;
 }
 
-vector<int> sieve(int ma) {
-  vector<int> res;
-  vector<bool> mem(ma + 1, true);
-  mem[0] = mem[1] = false;
-  for (int i = 2; i <= ma; i++) {
-    if (!mem[i]) continue;
-    res.push_back(i);
-    for (int j = i * 2; j <= ma; j += i) {
-      mem[j] = false;
-    }
-  }
-  return res;
-}
-
 inline unsigned long long xorshift() {
   static unsigned long long x = 88172645463325252ull;
   x = x ^ (x << 7);
   return x = x ^ (x >> 9);
 }
-
-template <typename T> struct Compress {
-  vector<T> v;
-  Compress() {}
-  Compress(vector<T> v) : v(v) { build(); }
-  void insert(T x) { v.push_back(x); }
-  void build() {
-    sort(all(v));
-    v.erase(unique(all(v)), v.end());
-  }
-  int get(T x) { return lower_bound(all(v), x) - v.begin(); }
-  int size() { return v.size(); }
-};
-
-template <typename T> struct Combination {
-  vector<T> facc;
-  vector<T> finv;
-  Combination(int max) {
-    facc.resize(max + 1);
-    finv.resize(max + 1);
-    facc[0] = 1;
-    for (int i = 0; i < max; i++) {
-      facc[i + 1] = facc[i] * (i + 1);
-    }
-    finv[max] = (T)1 / facc[max];
-    for (int i = max; i > 0; i--) {
-      finv[i - 1] = finv[i] * i;
-    }
-  }
-  T operator()(int a, int b) {
-    if (a < 0 || b < 0 || b > a) return 0;
-    return facc[a] * finv[a - b] * finv[b];
-  }
-};
-
-template <typename T = i64> struct Vec2 {
-  T x, y;
-  Vec2() : x(0), y(0) {}
-  Vec2(T x, T y) : x(x), y(y) {}
-  Vec2 &operator+=(Vec2 that) {
-    x += that.x, y += that.y;
-    return *this;
-  }
-  Vec2 &operator-=(Vec2 that) {
-    x -= that.x, y -= that.y;
-    return *this;
-  }
-  Vec2 &operator*=(T s) {
-    x *= s, y *= s;
-    return *this;
-  }
-  Vec2 &operator/=(T s) {
-    x /= s, y /= s;
-    return *this;
-  }
-  bool operator==(const Vec2<T> &rhs) const {
-    return this->x == rhs.x && this->y == rhs.y;
-  }
-  Vec2 operator+(Vec2 that) const { return Vec2(*this) += that; }
-  Vec2 operator-(Vec2 that) const { return Vec2(*this) -= that; }
-  Vec2 operator*(T that) const { return Vec2(*this) *= that; }
-  Vec2 operator/(T that) const { return Vec2(*this) /= that; }
-  T dot(Vec2 that) const { return x * that.x + y * that.y; }
-  T cross(Vec2 that) const { return x * that.y - y * that.x; }
-  T length() const { return hypot(x, y); }
-  Vec2 normal() const { return Vec2(*this) / (*this).length(); }
-  T manhattan(const Vec2 &that) {
-    return abs(this->x - that.x) + abs(this->y - that.y);
-  }
-  Vec2 rotate90() { return Vec2(-this->y, this->x); }
-  friend istream &operator>>(istream &is, Vec2 &v) { return is >> v.x >> v.y; }
-  friend ostream &operator<<(ostream &os, Vec2 &v) {
-    return os << v.x << " " << v.y;
-  }
-};
-
-/*
-sudo apt-get update
-sudo apt-get install libboost-all-dev
-*/
-// #include <boost/multiprecision/cpp_dec_float.hpp>
-// #include <boost/multiprecision/cpp_int.hpp>
-
-// using Bint = boost::multiprecision::cpp_int;
-// using Real =
-//     boost::multiprecision::number<boost::multiprecision::cpp_dec_float<128>>;
 
 void solve();
 
