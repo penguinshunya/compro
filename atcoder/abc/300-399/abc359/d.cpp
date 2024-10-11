@@ -1,3 +1,4 @@
+#line 1 "library/main.hpp"
 #include <algorithm>
 #include <assert.h>
 #include <cmath>
@@ -124,4 +125,67 @@ int main() {
   cout << fixed << setprecision(16);
   solve();
   return 0;
+}
+#line 2 "main.cpp"
+#include <atcoder/all>
+using namespace std;
+using namespace atcoder;
+
+using mint = modint998244353;
+
+mint dp[1010][1050];
+
+void solve() {
+  int n, k;
+  cin >> n >> k;
+  string S;
+  cin >> S;
+  auto judge = [&](int s) {
+    for (int l = 0; l < k / 2; l++) {
+      int r = k - l - 1;
+      if (((s >> l) & 1) != ((s >> r) & 1)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  for (int s = 0; s < (1 << k); s++) {
+    bool ok = true;
+    for (int i = 0; i < k; i++) {
+      if (S[i] == '?') continue;
+      int c = S[i] - 'A';
+      if ((s >> (k - i - 1) & 1) != c) {
+        ok = false;
+        break;
+      }
+    }
+    if (!ok) continue;
+    if (judge(s)) {
+      dp[0][s] = 1;
+    }
+  }
+  for (int i = 0; i + k + 1 <= n; i++) {
+    int ni = i + 1;
+    vector<int> next;
+    if (S[ni + k - 1] == 'A') next.push_back(0);
+    if (S[ni + k - 1] == 'B') next.push_back(1);
+    if (S[ni + k - 1] == '?') {
+      next.push_back(0);
+      next.push_back(1);
+    }
+    for (int s = 0; s < (1 << k); s++) {
+      if (dp[i][s] == 0) continue;
+      for (auto j : next) {
+        int ns = (s << 1) & ((1 << k) - 1) | j;
+        if (judge(ns)) {
+          dp[ni][ns] += dp[i][s];
+        }
+      }
+    }
+  }
+  mint ans = 0;
+  for (int s = 0; s < (1 << k); s++) {
+    ans += dp[n - k][s];
+  }
+  cout << ans.val() << endl;
 }
