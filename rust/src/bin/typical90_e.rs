@@ -1,10 +1,14 @@
+use ac_library::ModInt1000000007 as Mint;
 use proconio::input;
 
-type Mint = ac_library::ModInt1000000007;
-
 fn main() {
-    input! {n: usize, b: usize, k: usize, c: [usize; k]}
-    let mut pow = vec![0; 61];
+    input! {
+        n: usize,
+        b: usize,
+        k: usize,
+        c: [usize; k]
+    }
+    let mut pow = vec![0; 61]; // 10^(2^i)
     pow[0] = 10;
     for i in 1..=60 {
         pow[i] = pow[i - 1] * pow[i - 1] % b;
