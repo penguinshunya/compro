@@ -1,0 +1,15 @@
+[package]
+name = "rust"
+version = "0.1.0"
+edition = "2021"
+default-run = "rust"
+
+[dependencies]
+ac-library-rs = "0.1.1"
+itertools = "0.13.0"
+memoise = "0.3.2"
+num = "0.4.3"
+proconio = { version = "0.5.0", features = ["derive"] }
+rand = "0.8.5"
+rustc-hash = "2.0.0"
+superslice = "1.0.0"
